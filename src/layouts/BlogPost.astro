@@ -1,0 +1,41 @@
+---
+import { Image } from 'astro:assets';
+import type { CollectionEntry } from 'astro:content';
+
+import FormattedDate from '../components/FormattedDate.astro';
+
+import '../styles/global.css';
+import '../styles/post.css';
+
+type Props = CollectionEntry<'blog'>['data'];
+const { title, description, pubDate, heroImage } = Astro.props;
+---
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+        <meta name="viewport" content="width=device-width" />
+        <meta name="generator" content={Astro.generator} />
+        <title>{title}</title>
+        <meta name="description" content={description} />
+    </head>
+    <body>
+        <div class="post-page page-shell">
+            <article class="post">
+                <header>
+                    <h1>{title}</h1>
+                    <p class="description">{description}</p>
+                    {heroImage && (
+                        <Image src={heroImage} format="webp" alt={title} class="hero" />
+                    )}
+                    <p class="date">
+                        <FormattedDate date={pubDate} />
+                    </p>
+                </header>
+                <div class="body">
+                    <slot />
+                </div>
+            </article>
+        </div>
+    </body>
+</html>
